@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% load static %}
+
+<body>
+	<div id=settings style="text-align:right;">		
+		<a href="/FlightLog/settings">
+		<img src="{% static "gear.png" %}" height="25" width="25">
+		</a>
+	</div>
+	<div id=report>
+		<div style="margin:5px">
+			<fieldset>
+				<legend><img src="{% static "plane.png" %}" alt="Smiley face" height="50" width="50"></legend>
+				<table style="width:100%; table-layout: fixed;">
+					<td style="text-align:left">בוצע: {{total_done}}</td>
+					<td style="text-align:center">פוטנציאל: {{total_potential}}</td>
+					<td style="text-align:right">יעד: {{total_goal}}</td>
+				</table>
+				<div id="goalBar">
+					<div id = label style = "color: black ; text-align: right; position: absolute; right: 0px;"> <!--goal: {{total_goal}} potentail: {{total_potential}}--></div>
+					<div id = "totalCompleted" class = "completedBar"><!--<div id = label> done: {{total_done}} </div>--></div>
+				</div>
+			</fieldset>
+		</div>
+		<div style="margin:5px">
+			<fieldset>
+				<legend><img src="{% static "moon.png" %}" alt="Smiley face" height="50" width="50"></legend>
+				<table style="width:100%; table-layout: fixed;">
+					<td style="text-align:left">בוצע: {{night_done}}</td>
+					<td style="text-align:center">פוטנציאל: {{night_potential}}</td>
+					<td style="text-align:right">יעד: {{night_goal}}</td>
+				</table>
+				<div id="goalBar">
+					<div id = label style = "color: black ; text-align: right; position: absolute; right: 0px;"> <!--goal: {{night_goal}} potentail: {{night_potential}}--></div>
+					<div id = "nightCompleted" class = "completedBar"><!--<div id = label> done: {{night_done}} </div>--></div>
+				</div>
+			</fieldset>
+		</div>
+		<a href="/FlightLog/calendar.html?date={% now "Y-m-d" %}">
+			<div style="margin:5px">
+				<fieldset>
+				<legend><img src="{% static "calendar.png" %}" alt="Smiley face" height="50" width="50"></legend>
+					<div id="goalBar">
+						<div id = label style = "color: black ; text-align: right; position: absolute; right: 0px;"></div>
+						<div id = "piriodCompleted" class = "completedBar"></div>
+					</div>
+				</fieldset>
+			</div>
+		</a>
+	</div>
+	<div>
+		<input id="addSortie" type="button" class="button" value="" onClick="location.href='/FlightLog/add_sorties.html'";"">
+	</div>
+</body>
+
+<script>
+	function statusBar(mission,goal,done){
+    var elem = document.getElementById(mission); 
+    var width = 0;
+    width = (done/goal)*100;
+    width = Math.min(width, 100);
+    elem.style.width = width+'%';
+    }
+    
+    statusBar("totalCompleted",{{total_goal}},{{total_done}})
+    statusBar("nightCompleted",{{night_goal}},{{night_done}})
+    statusBar("piriodCompleted",{{piriod_l}},{{piriod_elapsed}})
+</script>
+
+{% endblock %}
+
+

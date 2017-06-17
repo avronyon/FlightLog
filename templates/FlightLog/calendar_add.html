@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<body>
+	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+	<form action="calendar_add" method="post" style="text-align:center;">
+	{% csrf_token %}
+	<div>
+		{{request.GET.date}}
+	</div>
+	<div>
+		<input id="date" name="date" type="date" style="opacity:0;" value = {{request.GET.date}}><br>
+		day: 
+		<select name="day">
+			<option value="0">0</option>
+			<option value="1">1</option>
+			<option value="2" selected>2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+		</select>
+		<br>
+		night: 
+		<select name="night">
+			<option value="0" selected>0</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+		</select>
+	</div>
+	<div>
+	<br>
+    <input type="submit" value="SUBMIT"">
+    </div>
+	</form>
+</body>
+{% endblock %}

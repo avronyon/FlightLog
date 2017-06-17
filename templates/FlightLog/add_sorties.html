@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<body>
+	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+	<form action="add_sorties" method="post">
+		{% csrf_token %}
+		<div>
+			<input id="date" name="date" min="2016-02-16" max="2020-01-01" type="date">
+		</div>
+		<div id='sorties'>
+			<div>
+			<input id="add" type="button" class="button" value="" onClick="addSortie()">
+			</div>
+		</div>
+		<div style= "position:bottom">
+		<br>
+        <input type="submit" value="SUBMIT">
+        </div>
+	</form>
+</body>
+
+<script>
+
+	var sortie_counter = 1;
+	var FLIGHT_OPTIONS = ["night", "recon", "shoham"];
+	addSortie();
+	
+	function createCheckboxElement(name, text, checked , hidden = false) {
+		var checkboxHtml = '<label for="'+ name + '">' +text + '</label>'
+		checkboxHtml += '<input type="checkbox" name="' + name + '" id="'+ name + '"';
+		if ( checked ) {
+			checkboxHtml += ' checked="checked"';
+		}
+		if ( hidden ) {
+			checkboxHtml += ' style="opacity:0;" ';
+		}
+		checkboxHtml += '/>';
+		return checkboxHtml
+	}
+	
+	
+	function createOptions(j){
+		var innerHTML = '<fieldset><legend>Sortie ' +j +': </legend>';
+        var i;
+        innerHTML += createCheckboxElement("mission"+j,'', true , true);
+        for(i = 0 ; i < FLIGHT_OPTIONS.length ; i++)
+        {
+            innerHTML += createCheckboxElement("mission"+j+FLIGHT_OPTIONS[i],FLIGHT_OPTIONS[i], false);
+        }
+        innerHTML += '</fieldset>'
+        var checkboxFragment = document.createElement('div');
+		checkboxFragment.innerHTML = innerHTML;
+		return checkboxFragment;
+    }
+    
+    function addSortie(){
+      var addButton = document.getElementById('add');
+      addButton.parentNode.removeChild(addButton);
+	  var newdiv = document.createElement('div');
+	  innerHTML = createOptions(sortie_counter).innerHTML;
+	  innerHTML += '<input id="add" type="button" class="button" value="" onClick="addSortie('+sortie_counter+');">'
+	  newdiv.innerHTML = innerHTML;
+	  var sorteisDiv = document.getElementById('sorties');
+	  sorteisDiv.appendChild(newdiv);
+	  sortie_counter++;
+     }
+</script>
+
+{% endblock %}
