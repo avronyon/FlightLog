@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<body>
+	כלל הגיחות
+<table align="center" cellpadding="10" style="text-align:center;">
+    {% for flight in flight_list %}
+    <tr>
+        <td>{{flight.dt|date:"Y-m-d"}}</td>
+        <td>{{flight.mission}}</td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+
+{% endblock %}

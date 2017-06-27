@@ -15,4 +15,6 @@ urlpatterns = [
                # ex: /FlightLog/delete_from_db
                url(r'settings', views.settings, name='settings'),
                # ex: /FlightLog/settings
+               url(r'history', views.history, name='history'),
+               # ex: /FlightLog/settings
                ]

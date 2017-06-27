@@ -12,13 +12,16 @@ from .models import goals , flightLog , plannedFlight
 
 PIRIOD_S = datetime.datetime(2017,1,1,0,0,0)
 PIRIOD_E = datetime.datetime(2017,6,30,0,0,0)
+if datetime.datetime.today() > PIRIOD_E:
+	PIRIOD_S = datetime.datetime(2017,7,1,0,0,0)
+	PIRIOD_E = datetime.datetime(2017,12,31,0,0,0)
 
 	
 def get_flights(pilot_name,mission='total'):
 	if mission == 'total':
 		mission = ''
 	try:
-		return len(flightLog.objects.filter(pilot=pilot_name).filter(mission__contains=mission))
+		return len(flightLog.objects.filter(pilot=pilot_name).filter(dt__gte = PIRIOD_S).filter(mission__contains=mission))
 	except:
 		return 0
 		
@@ -115,3 +118,9 @@ def settings(request):
 		return HttpResponseRedirect("/FlightLog/")
 	else:
 		return render(request, 'FlightLog/settings.html')
+		
+@login_required
+def history(request):
+	pilot_id = request.user.id
+	flight_list = flightLog.objects.filter(pilot=pilot_id).order_by('-dt')
+	return render(request, 'FlightLog/history.html', {'flight_list':flight_list,})
