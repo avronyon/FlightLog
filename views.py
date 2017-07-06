@@ -10,11 +10,8 @@ from .models import goals , flightLog , plannedFlight
 
 # Create your views here.
 
-PIRIOD_S = datetime.datetime(2017,1,1,0,0,0)
-PIRIOD_E = datetime.datetime(2017,6,30,0,0,0)
-if datetime.datetime.today() > PIRIOD_E:
-	PIRIOD_S = datetime.datetime(2017,7,1,0,0,0)
-	PIRIOD_E = datetime.datetime(2017,12,31,0,0,0)
+PIRIOD_S = datetime.datetime(2017,7,1,0,0,0)
+PIRIOD_E = datetime.datetime(2017,12,31,0,0,0)
 
 	
 def get_flights(pilot_name,mission='total'):
