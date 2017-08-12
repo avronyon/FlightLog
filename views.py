@@ -120,4 +120,8 @@ def settings(request):
 def history(request):
 	pilot_id = request.user.id
 	flight_list = flightLog.objects.filter(pilot=pilot_id).order_by('-dt')
+	for flight in flight_list:
+		flight.mission = flight.mission.replace(';',' ').strip()
+		if flight.mission == '':
+			flight.mission = 'day'
 	return render(request, 'FlightLog/history.html', {'flight_list':flight_list,})
