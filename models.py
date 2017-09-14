@@ -20,4 +20,5 @@ class plannedFlight(models.Model):
     pilot = models.CharField(max_length=200)
     day_value = models.IntegerField(default=2)
     night_value = models.IntegerField(default=0)
+    gnd_activity = models.CharField(max_length=200,blank=True,null=True)
     dt =  models.DateField('date of occurence')

@@ -44,20 +44,14 @@
 		<div style="margin:5px">
 			<fieldset>
 				<legend><img src="{% static "joystick.png" %}" alt="Smiley face" height="40" width="40"></legend>
-				<table style="width:100%; table-layout: fixed;">
-					<td style="text-align:left">בוצע:</td>
-					<td style="text-align:center">פוטנציאל:</td>
-					<td style="text-align:right">יעד:</td>
-				</table>
 				<div id="goalBar">
-					<div id = label style = "color: black ; text-align: right; position: absolute; right: 0px;"></div>
-						<table style="width:100%; text-align: center; table-layout: fixed;">
-							<td><img src="{% static "winter.png" %}" alt="" style="height:1.5em"></img></td>
-							<td><img src="{% static "fire.png" %}" alt="" style="height:1.5em"></img></td>
-							<td><img src="{% static "joystick_2.png" %}" alt="" style="height:1.5em"></img></td>
-							<td><img src="{% static "syringe.png" %}" alt="" style="height:1.5em"></img></td>
+					<div id = label style = "color: black ; text-align: right; position: absolute; right: 0px;">
+						<table cellspacing=0 style="width:100%; height:30px; text-align: center; table-layout: fixed; font-size:18px;">
+							{% autoescape off %}
+							{{gnd_activity_table}}
+							{% endautoescape %}
 						</table>
-					<div id = "nightCompleted" class = "completedBar"></div>
+					</div>
 				</div>
 			</fieldset>
 		</div>
