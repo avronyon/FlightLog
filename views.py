@@ -15,6 +15,8 @@ from .models import goals , flightLog , plannedFlight
 PIRIOD_S = datetime.datetime(2017,7,1,0,0,0)
 PIRIOD_E = datetime.datetime(2017,12,31,0,0,0)
 GND_ACTIONS = ('sim','sim_winter','malam','yarpa')
+STATIC_SIM_GOAL = 2
+STATIC_MALAM_GOAL = 1
 
 	
 def get_flights(pilot_name,mission='total'):
@@ -48,6 +50,11 @@ def get_gnd_activity(pilot_id):
 		out += '<td bgcolor="#ffb23f">'+f.mission.strip(';')+'</td>'
 	for f in planned:
 		out += '<td>'+f.gnd_activity.strip(';')+'</td>'
+	# padding with goals
+	while(out.count('sim')< STATIC_SIM_GOAL):
+		out += '<td>gnd_sim</td>'
+	while(out.count('malam')< STATIC_MALAM_GOAL):
+		out += '<td>gnd_malam</td>'
 	out = out.replace('gnd_sim_winter', u'🌧️').replace('gnd_sim', u'🔥').replace('gnd_malam', u'🕹️').replace('gnd_yarpa', u'💉')
 	return out
 	
