@@ -114,6 +114,8 @@ def calendar_add(request):
 	pilot_id = request.user.id
 	if request.method == 'POST':
 		sortie_entry = plannedFlight(pilot=pilot_id, day_value=request.POST['day'],night_value=request.POST['night'],dt=request.POST['date'])
+		if not request.POST['gnd_activity'] == 'none':
+			sortie_entry.gnd_activity = request.POST['gnd_activity']
 		sortie_entry.save()
 		return HttpResponseRedirect("/FlightLog/calendar.html?date="+request.POST['date'])
 	else:
