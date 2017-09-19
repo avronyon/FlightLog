@@ -14,7 +14,7 @@
 		<a href="/FlightLog/history.html">
 		<div style="margin:5px">
 			<fieldset>
-				<legend><img src="{% static "plane.png" %}" alt="Smiley face" height="40" width="40"></legend>
+				<legend><img src="{% static "plane.png" %}" height="40" width="40"></legend>
 				<table style="width:100%; table-layout: fixed;">
 					<td style="text-align:left">בוצע: {{total_done}}</td>
 					<td style="text-align:center">פוטנציאל: {{total_potential}}</td>
@@ -29,7 +29,7 @@
 		</a>
 		<div style="margin:5px">
 			<fieldset>
-				<legend><img src="{% static "moon.png" %}" alt="Smiley face" height="40" width="40"></legend>
+				<legend><img src="{% static "moon.png" %}" height="40" width="40"></legend>
 				<table style="width:100%; table-layout: fixed;">
 					<td style="text-align:left">בוצע: {{night_done}}</td>
 					<td style="text-align:center">פוטנציאל: {{night_potential}}</td>
@@ -43,7 +43,7 @@
 		</div>
 		<div style="margin:5px">
 			<fieldset>
-				<legend><img src="{% static "joystick.png" %}" alt="Smiley face" height="40" width="40"></legend>
+				<legend><img src="{% static "joystick.png" %}" height="40" width="40"></legend>
 				<div id="goalBar">
 					<div id = label style = "color: black ; text-align: right; position: absolute; right: 0px;">
 						<table cellspacing=0 style="width:100%; height:30px; text-align: center; table-layout: fixed; font-size:18px;">
@@ -58,7 +58,7 @@
 		<a href="/FlightLog/calendar.html?date={% now "Y-m-d" %}">
 			<div style="margin:5px">
 				<fieldset>
-				<legend><img src="{% static "calendar.png" %}" alt="Smiley face" height="40" width="40"></legend>
+				<legend><img src="{% static "calendar.png" %}" height="40" width="40"></legend>
 					<div id="goalBar">
 						<div id = label style = "color: black ; text-align: right; position: absolute; right: 0px;"></div>
 						<div id = "piriodCompleted" class = "completedBar"></div>

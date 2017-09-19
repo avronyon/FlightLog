@@ -24,7 +24,8 @@
 <script>
 
 	var sortie_counter = 1;
-	var FLIGHT_OPTIONS = ["night", "recon", "shoham","sim","sim_winter","malam","yarpa"];
+	var FLIGHT_OPTIONS = ["night", "recon", "shoham",];
+	var GROUND_OPTIONS = ["sim","sim_winter","malam","yarpa",];
 	addSortie();
 	
 	function createCheckboxElement(name, text, checked , hidden = false) {
@@ -41,15 +42,21 @@
 	}
 	
 	
-	function createOptions(j){
+	function createOptions(options,j){
 		var innerHTML = '<fieldset><legend>Sortie ' +j +': </legend>';
         var i;
         innerHTML += createCheckboxElement("mission"+j,'', true , true);
-        for(i = 0 ; i < FLIGHT_OPTIONS.length ; i++)
+        for(i = 0 ; i < options.length ; i++)
         {
-            innerHTML += createCheckboxElement("mission"+j+FLIGHT_OPTIONS[i],FLIGHT_OPTIONS[i], false);
+            innerHTML += createCheckboxElement("mission"+j+options[i],options[i], false);
         }
-        innerHTML += '</fieldset>'
+        if(options == FLIGHT_OPTIONS){
+        	innerHTML += '<br><label for="air">Switch to Ground Activity</label><input type="checkbox" name="air" onClick="ToggleGndAir(this,'+j+')">';
+        }
+        else{
+        	innerHTML += '<br><label for="gnd">Switch to Flight</label><input type="checkbox" name="gnd" onClick="ToggleGndAir(this,'+j+')">';
+        }
+        innerHTML += '</fieldset>';
         var checkboxFragment = document.createElement('div');
 		checkboxFragment.innerHTML = innerHTML;
 		return checkboxFragment;
@@ -59,12 +66,28 @@
       var addButton = document.getElementById('add');
       addButton.parentNode.removeChild(addButton);
 	  var newdiv = document.createElement('div');
-	  innerHTML = createOptions(sortie_counter).innerHTML;
+	  innerHTML = createOptions(FLIGHT_OPTIONS,sortie_counter).innerHTML;
 	  innerHTML += '<input id="add" type="button" class="button" value="" onClick="addSortie('+sortie_counter+');">'
 	  newdiv.innerHTML = innerHTML;
 	  var sorteisDiv = document.getElementById('sorties');
 	  sorteisDiv.appendChild(newdiv);
 	  sortie_counter++;
+     }
+     
+     function ToggleGndAir(el,j){
+     	var oldFieldset = el.parentNode.parentNode;
+     	console.log(oldFieldset.innerHTML);
+     	var newFiedset = document.createElement('div');
+     	if(el.name == 'air'){ 	
+     		newFiedset.innerHTML = createOptions(GROUND_OPTIONS,j).innerHTML;
+     	}
+     	else{
+     		newFiedset.innerHTML = createOptions(FLIGHT_OPTIONS,j).innerHTML;
+     	}
+     	console.log(newFiedset.innerHTML);
+     	oldFieldset.insertBefore(newFiedset,el.parentNode);
+     	el.parentNode.parentNode.removeChild(el.parentNode);
+        console.log(oldFieldset.innerHTML);   	
      }
 </script>
 
