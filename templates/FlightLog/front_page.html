@@ -15,14 +15,14 @@
 		<div style="margin:5px">
 			<fieldset>
 				<legend><img src="{% static "plane.png" %}" height="40" width="40"></legend>
-				<table style="width:100%; table-layout: fixed;">
-					<td style="text-align:left">בוצע: {{total_done}}</td>
-					<td style="text-align:center">פוטנציאל: {{total_potential}}</td>
-					<td style="text-align:right">יעד: {{total_goal}}</td>
-				</table>
 				<div id="goalBar">
-					<div id = label style = "color: black ; text-align: right; position: absolute; right: 0px;"> <!--goal: {{total_goal}} potentail: {{total_potential}}--></div>
-					<div id = "totalCompleted" class = "completedBar"><!--<div id = label> done: {{total_done}} </div>--></div>
+					<div id = label></div>
+					<div id = "totalCompleted" class = "completedBar"></div>
+					<table style="width:100%; table-layout: fixed; position: absolute; color: black;">
+						<td style="text-align:left">בוצע: {{total_done}}</td>
+						<td style="text-align:center">פוטנציאל: {{total_potential}}</td>
+						<td style="text-align:right">יעד: {{total_goal}}</td>
+					</table>
 				</div>
 			</fieldset>
 		</div>
@@ -30,14 +30,14 @@
 		<div style="margin:5px">
 			<fieldset>
 				<legend><img src="{% static "moon.png" %}" height="40" width="40"></legend>
-				<table style="width:100%; table-layout: fixed;">
-					<td style="text-align:left">בוצע: {{night_done}}</td>
-					<td style="text-align:center">פוטנציאל: {{night_potential}}</td>
-					<td style="text-align:right">יעד: {{night_goal}}</td>
-				</table>
 				<div id="goalBar">
-					<div id = label style = "color: black ; text-align: right; position: absolute; right: 0px;"> <!--goal: {{night_goal}} potentail: {{night_potential}}--></div>
-					<div id = "nightCompleted" class = "completedBar"><!--<div id = label> done: {{night_done}} </div>--></div>
+					<div id = label></div>
+					<div id = "nightCompleted" class = "completedBar"></div>
+					<table style="width:100%; table-layout: fixed; position: absolute; color: black;">
+						<td style="text-align:left">בוצע: {{night_done}}</td>
+						<td style="text-align:center">פוטנציאל: {{night_potential}}</td>
+						<td style="text-align:right">יעד: {{night_goal}}</td>
+				</table>
 				</div>
 			</fieldset>
 		</div>
