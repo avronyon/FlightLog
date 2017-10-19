@@ -4,21 +4,22 @@
 
 <body>
 	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+	<div class="container">
 	<form action="add_sorties" method="post">
 		{% csrf_token %}
-		<div>
+		<div class="row">
 			<input id="date" name="date" min="2016-02-16" max="2020-01-01" type="date">
 		</div>
-		<div id='sorties'>
-			<div>
-			<input id="add" type="button" class="button" value="" onClick="addSortie()">
-			</div>
+		<div id='sorties' class="row">
 		</div>
-		<div style= "position:bottom">
-		<br>
-        <input type="submit" value="SUBMIT">
+		<div id = 'add' class="row">
+			<input type="button" class="button" value="" onClick="addSortie()">
+		<div>
+		<div id = "footer" class="row" style= "position:bottom">
+        	<input id = 'submit' type="submit" value="SUBMIT">
         </div>
 	</form>
+	<div>
 </body>
 
 <script>
@@ -29,21 +30,28 @@
 	addSortie();
 	
 	function createCheckboxElement(name, text, checked , hidden = false) {
-		var checkboxHtml = '<label for="'+ name + '">' +text + '</label>'
-		checkboxHtml += '<input type="checkbox" name="' + name + '" id="'+ name + '"';
-		if ( checked ) {
-			checkboxHtml += ' checked="checked"';
+		var label = document.createElement('LABEL');
+		label.setAttribute("class","btn btn-warning");
+		label.setAttribute("for",name);
+		var checkBox = document.createElement('INPUT');
+		checkBox.setAttribute('type','checkbox');
+		checkBox.setAttribute('name',name);
+		checkBox.setAttribute('id',name);
+		checkBox.setAttribute('display','none');
+		checkBox.setAttribute('autocomplete',"off");
+		if(checked){
+			checkBox.checked = true;
 		}
-		if ( hidden ) {
-			checkboxHtml += ' style="opacity:0;" ';
+		if(hidden){
+			label.setAttribute('style','display:none;')
 		}
-		checkboxHtml += '/>';
-		return checkboxHtml
+		label.textContent = text;
+		label.appendChild(checkBox);
+		return label.outerHTML;
 	}
-	
-	
+
 	function createOptions(options,j){
-		var innerHTML = '<fieldset><legend>Sortie ' +j +': </legend>';
+		var innerHTML = '<div class="btn-group" data-toggle="buttons"> <legend>Sortie ' +j + '</legend>';
         var i;
         innerHTML += createCheckboxElement("mission"+j,'', true , true);
         for(i = 0 ; i < options.length ; i++)
@@ -56,18 +64,15 @@
         else{
         	innerHTML += '<br><label for="gnd">Switch to Flight</label><input type="checkbox" name="gnd" onClick="ToggleGndAir(this,'+j+')">';
         }
-        innerHTML += '</fieldset>';
+        innerHTML += '</div>';
         var checkboxFragment = document.createElement('div');
 		checkboxFragment.innerHTML = innerHTML;
 		return checkboxFragment;
     }
     
     function addSortie(){
-      var addButton = document.getElementById('add');
-      addButton.parentNode.removeChild(addButton);
 	  var newdiv = document.createElement('div');
 	  innerHTML = createOptions(FLIGHT_OPTIONS,sortie_counter).innerHTML;
-	  innerHTML += '<input id="add" type="button" class="button" value="" onClick="addSortie('+sortie_counter+');">'
 	  newdiv.innerHTML = innerHTML;
 	  var sorteisDiv = document.getElementById('sorties');
 	  sorteisDiv.appendChild(newdiv);

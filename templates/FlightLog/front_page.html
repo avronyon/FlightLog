@@ -5,12 +5,13 @@
 {% load static %}
 
 <body>
-	<div id=settings style="text-align:right;">		
+	<div class="container">
+	<div class="row" id=settings style="text-align:right;">
 		<a href="/FlightLog/settings">
 		<img src="{% static "gear.png" %}" height="25" width="25">
 		</a>
 	</div>
-	<div id=report>
+	<div class = "row" id=report>
 		<a href="/FlightLog/history.html">
 		<div style="margin:5px">
 			<fieldset>
@@ -27,7 +28,7 @@
 			</fieldset>
 		</div>
 		</a>
-		<div style="margin:5px">
+		<div class = "row" style="margin:5px">
 			<fieldset>
 				<legend><img src="{% static "moon.png" %}" height="40" width="40"></legend>
 				<div id="goalBar">
@@ -41,7 +42,7 @@
 				</div>
 			</fieldset>
 		</div>
-		<div style="margin:5px">
+		<div class = "row" style="margin:5px">
 			<fieldset>
 				<legend><img src="{% static "joystick.png" %}" height="40" width="40"></legend>
 				<div id="goalBar">
@@ -56,7 +57,7 @@
 			</fieldset>
 		</div>
 		<a href="/FlightLog/calendar.html?date={% now "Y-m-d" %}">
-			<div style="margin:5px">
+			<div class = "row" style="margin:5px">
 				<fieldset>
 				<legend><img src="{% static "calendar.png" %}" height="40" width="40"></legend>
 					<div id="goalBar">
@@ -69,6 +70,7 @@
 	</div>
 	<div>
 		<input id="addSortie" type="button" class="button" value="" onClick="location.href='/FlightLog/add_sorties.html'";"">
+	</div>
 	</div>
 </body>
 
