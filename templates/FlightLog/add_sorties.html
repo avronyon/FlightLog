@@ -47,52 +47,65 @@
 		}
 		label.textContent = text;
 		label.appendChild(checkBox);
-		return label.outerHTML;
+		return label;
 	}
 
 	function createOptions(options,j){
-		var innerHTML = '<div class="btn-group" data-toggle="buttons"> <legend>Sortie ' +j + '</legend>';
-        var i;
-        innerHTML += createCheckboxElement("mission"+j,'', true , true);
-        for(i = 0 ; i < options.length ; i++)
-        {
-            innerHTML += createCheckboxElement("mission"+j+options[i],options[i], false);
-        }
-        if(options == FLIGHT_OPTIONS){
-        	innerHTML += '<br><label for="air">Switch to Ground Activity</label><input type="checkbox" name="air" onClick="ToggleGndAir(this,'+j+')">';
-        }
-        else{
-        	innerHTML += '<br><label for="gnd">Switch to Flight</label><input type="checkbox" name="gnd" onClick="ToggleGndAir(this,'+j+')">';
-        }
-        innerHTML += '</div>';
-        var checkboxFragment = document.createElement('div');
-		checkboxFragment.innerHTML = innerHTML;
-		return checkboxFragment;
+		var outputDiv = document.createElement('DIV');
+		outputDiv.id = 'sortie'+j;
+		var rowDiv = document.createElement('DIV');
+		rowDiv.setAttribute('class','row');
+		var btnDiv = document.createElement('DIV');
+		btnDiv.id = 'sortieBtn'+ j
+		btnDiv.setAttribute('class','btn-group');
+		btnDiv.setAttribute('data-toggle','buttons');
+		var legend = document.createElement('LEGEND');
+		legend.textContent = 'Sortie' + j;
+		btnDiv.appendChild(legend)
+		btnDiv.appendChild(createCheckboxElement("mission"+j,'', true , true));
+		var i;
+		for(i = 0 ; i < options.length ; i++){
+			console.log(options[i])
+			btnDiv.appendChild(createCheckboxElement("mission"+j+options[i],options[i], false));
+		}
+		rowDiv.appendChild(btnDiv);
+
+		var toggleDiv = document.createElement('DIV');
+		toggleDiv.setAttribute('class','row');
+		var toggleBtn = document.createElement('BUTTON')
+		toggleBtn.setAttribute('class','btn btn-warning');
+		toggleBtn.textContent = 'Switch to Air Activity';
+		toggleBtn.name = 'toggleAir'
+		if (options == FLIGHT_OPTIONS){
+			toggleBtn.textContent = 'Switch to Ground Activity';
+			toggleBtn.name = 'toggleGnd'
+		}
+		toggleBtn.setAttribute('onClick','ToggleGndAir(this,'+j+')')
+		toggleDiv.appendChild(toggleBtn)
+		outputDiv.appendChild(rowDiv);
+		outputDiv.appendChild(toggleDiv);
+		return outputDiv;
     }
     
     function addSortie(){
-	  var newdiv = document.createElement('div');
-	  innerHTML = createOptions(FLIGHT_OPTIONS,sortie_counter).innerHTML;
-	  newdiv.innerHTML = innerHTML;
+	  var options = createOptions(FLIGHT_OPTIONS,sortie_counter);
+	  var toggle = createOptions(["switch to ground activity"],sortie_counter);
 	  var sorteisDiv = document.getElementById('sorties');
-	  sorteisDiv.appendChild(newdiv);
+	  sorteisDiv.appendChild(options);
 	  sortie_counter++;
      }
      
      function ToggleGndAir(el,j){
-     	var oldFieldset = el.parentNode.parentNode;
-     	console.log(oldFieldset.innerHTML);
-     	var newFiedset = document.createElement('div');
-     	if(el.name == 'air'){ 	
-     		newFiedset.innerHTML = createOptions(GROUND_OPTIONS,j).innerHTML;
+     	var oldSortie = document.getElementById('sortie'+j);
+     	if (el.name == 'toggleGnd'){
+     		newSortie = createOptions(GROUND_OPTIONS,j)
      	}
      	else{
-     		newFiedset.innerHTML = createOptions(FLIGHT_OPTIONS,j).innerHTML;
+     		newSortie = createOptions(FLIGHT_OPTIONS,j)
      	}
-     	console.log(newFiedset.innerHTML);
-     	oldFieldset.insertBefore(newFiedset,el.parentNode);
-     	el.parentNode.parentNode.removeChild(el.parentNode);
-        console.log(oldFieldset.innerHTML);   	
+     	parent = oldSortie.parentNode;
+     	parent.appendChild(newSortie);
+     	parent.replaceChild(newSortie,oldSortie);
      }
 </script>
 
