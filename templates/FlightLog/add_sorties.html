@@ -52,17 +52,17 @@
 
 	function createOptions(options,j){
 		var outputDiv = document.createElement('DIV');
-		outputDiv.id = 'sortie'+j;
 		var rowDiv = document.createElement('DIV');
-		rowDiv.setAttribute('class','row');
 		var btnDiv = document.createElement('DIV');
+		var legend = document.createElement('h1');
+		outputDiv.id = 'sortie'+j;
+		rowDiv.setAttribute('class','row');
+		rowDiv.appendChild(legend)
+		rowDiv.appendChild(createCheckboxElement("mission"+j,'', true , true));
 		btnDiv.id = 'sortieBtn'+ j
 		btnDiv.setAttribute('class','btn-group');
 		btnDiv.setAttribute('data-toggle','buttons');
-		var legend = document.createElement('LEGEND');
 		legend.textContent = 'Sortie' + j;
-		btnDiv.appendChild(legend)
-		btnDiv.appendChild(createCheckboxElement("mission"+j,'', true , true));
 		var i;
 		for(i = 0 ; i < options.length ; i++){
 			console.log(options[i])
