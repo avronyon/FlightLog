@@ -19,7 +19,7 @@ STATIC_SIM_GOAL = 2
 STATIC_MALAM_GOAL = 1
 
 def emoji_replace(s):
-	return s.replace('gnd_sim_winter', u'🌧️').replace('gnd_sim', u'🔥').replace('gnd_malam', u'🕹️').replace('gnd_yarpa', u'💉')
+	return s.replace('gnd_sim_winter', u'🌧️').replace('gnd_sim', u'🔥').replace('gnd_malam', u'🕹️').replace('gnd_yarpa', u'💉').replace('fullmoon',u'🌔')
 
 
 def get_flights(pilot_name,mission='total'):

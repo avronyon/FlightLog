@@ -3,15 +3,21 @@ from datetime import date
 from .models import goals , flightLog , plannedFlight
 
 def get_days_activity(pilot_id,year,month,day):
+	out = ''
 	## currently only returns gnd_activities in the future
-	activity = plannedFlight.objects.filter(pilot=pilot_id).filter(dt=date(year,month,day)).values_list('gnd_activity', flat=True)
+	gnd_activity = plannedFlight.objects.filter(pilot=pilot_id).filter(dt=date(year,month,day)).values_list('gnd_activity', flat=True)
+	night_value = plannedFlight.objects.filter(pilot=pilot_id).filter(dt=date(year,month,day)).filter(night_value__gt=0).values_list('night_value', flat=True)
+	if len(night_value) > 0 :
+		out = 'fullmoon'
 	try:
-		out = ''
-		for a in activity:
+		for a in gnd_activity:
 			out += a.strip()
-		return out
 	except:
-		return day
+		if out =='':
+			return day
+		else:
+			return out
+	return out
 
 class MyHTMLCalendar(HTMLCalendar):
 	def __init__(self,pilot_id,done_sorties,planned_sorties):
