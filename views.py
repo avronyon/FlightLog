@@ -18,7 +18,10 @@ GND_ACTIONS = ('sim','sim_winter','malam','yarpa')
 STATIC_SIM_GOAL = 2
 STATIC_MALAM_GOAL = 1
 
-	
+def emoji_replace(s):
+	return s.replace('gnd_sim_winter', u'🌧️').replace('gnd_sim', u'🔥').replace('gnd_malam', u'🕹️').replace('gnd_yarpa', u'💉')
+
+
 def get_flights(pilot_name,mission='total'):
 	if mission == 'total':
 		mission = ''
@@ -55,8 +58,7 @@ def get_gnd_activity(pilot_id):
 		out += '<td>gnd_sim</td>'
 	while(out.count('malam')< STATIC_MALAM_GOAL):
 		out += '<td>gnd_malam</td>'
-	out = out.replace('gnd_sim_winter', u'🌧️').replace('gnd_sim', u'🔥').replace('gnd_malam', u'🕹️').replace('gnd_yarpa', u'💉')
-	return out
+	return emoji_replace(out)
 	
 @login_required
 def index(request):
@@ -112,9 +114,9 @@ def view_calendar(request):
 	prev_cal = datetime.date(year,month,1) - datetime.timedelta(3,0,0)
 	done_sorties = flightLog.objects.filter(pilot=pilot_id).filter(dt__gte = prev_cal).values_list('dt', flat=True)
 	planned_sorties = plannedFlight.objects.filter(pilot=pilot_id).filter(dt__gte = datetime.datetime.today()).filter(dt__lte = next_cal).values_list('dt', flat=True)
-	c = myHTMLCalendar.MyHTMLCalendar(done_sorties,planned_sorties)
+	c = myHTMLCalendar.MyHTMLCalendar(pilot_id,done_sorties,planned_sorties)
 	c.setfirstweekday(6)
-	return render(request, 'FlightLog/calendar.html', {'Calendar': mark_safe(c.formatmonth(year,month)),'next_year':next_cal.year,'next_month':next_cal.month,'prev_year':prev_cal.year,'prev_month':prev_cal.month})
+	return render(request, 'FlightLog/calendar.html', {'Calendar': mark_safe(emoji_replace(c.formatmonth(year,month))),'next_year':next_cal.year,'next_month':next_cal.month,'prev_year':prev_cal.year,'prev_month':prev_cal.month})
 
 @login_required
 def calendar_add(request):
