@@ -12,14 +12,14 @@ from .models import goals , flightLog , plannedFlight
 
 # Create your views here.
 
-PIRIOD_S = datetime.datetime(2017,7,1,0,0,0)
-PIRIOD_E = datetime.datetime(2017,12,31,0,0,0)
-GND_ACTIONS = ('sim','sim_winter','malam','yarpa')
+PIRIOD_S = datetime.datetime(2017,12,31,0,0,0)
+PIRIOD_E = datetime.datetime(2018,06,29,0,0,0)
+GND_ACTIONS = ('sim','sim_winter','malam','yarpa','konan')
 STATIC_SIM_GOAL = 2
 STATIC_MALAM_GOAL = 1
 
 def emoji_replace(s):
-	return s.replace('gnd_sim_winter', u'🌧️').replace('gnd_sim', u'🔥').replace('gnd_malam', u'🕹️').replace('gnd_yarpa', u'💉').replace('fullmoon',u'🌔')
+	return s.replace('gnd_sim_winter', u'🌧️').replace('gnd_sim', u'🔥').replace('gnd_malam', u'🕹️').replace('gnd_yarpa', u'💉').replace('fullmoon',u'🌔').replace('gnd_konan', u'🏖')
 
 
 def get_flights(pilot_name,mission='total'):
@@ -46,18 +46,18 @@ def get_potential(pilot_name):
 	return total_p , night_p
 
 def get_gnd_activity(pilot_id):
-	done = flightLog.objects.filter(pilot=pilot_id).filter(dt__gte = PIRIOD_S).filter(mission__contains='gnd')
-	planned = plannedFlight.objects.filter(pilot=pilot_id).filter(dt__gt = datetime.datetime.today()).filter(gnd_activity__isnull=False)
+	done = flightLog.objects.filter(pilot=pilot_id).filter(dt__gte = PIRIOD_S).filter(mission__contains='gnd').order_by('dt')
+	planned = plannedFlight.objects.filter(pilot=pilot_id).filter(dt__gt = datetime.datetime.today()).filter(gnd_activity__isnull=False).order_by('dt')
 	out = ''
 	for f in done:
 		out += '<td bgcolor="#ffb23f">'+f.mission.strip(';')+'</td>'
 	for f in planned:
-		out += '<td>'+f.gnd_activity.strip(';')+'</td>'
+		out += '<td style="filter:grayscale(30%)">'+f.gnd_activity.strip(';')+'</td>'
 	# padding with goals
 	while(out.count('sim')< STATIC_SIM_GOAL):
-		out += '<td>gnd_sim</td>'
+		out += '<td style="filter:grayscale(100%)">gnd_sim</td>'
 	while(out.count('malam')< STATIC_MALAM_GOAL):
-		out += '<td>gnd_malam</td>'
+		out += '<td style="filter:grayscale(100%)">gnd_malam</td>'
 	return emoji_replace(out)
 	
 @login_required
