@@ -5,7 +5,10 @@ from django.http import HttpResponse , HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.utils.safestring import mark_safe
+from django.db import connections
 import datetime
+import uuid , os
+import subprocess
 import re
 import myHTMLCalendar
 from .models import goals , flightLog , plannedFlight
@@ -17,6 +20,7 @@ PIRIOD_E = datetime.datetime(2018,06,29,0,0,0)
 GND_ACTIONS = ('sim','sim_winter','malam','yarpa','konan')
 STATIC_SIM_GOAL = 2
 STATIC_MALAM_GOAL = 1
+CALENDAR_SCRIPT_DIR = os.path.abspath(os.path.join(os.path.abspath(__file__),os.path.pardir,('calendar_manager')))
 
 def emoji_replace(s):
 	return s.replace('gnd_sim_winter', u'🌧️').replace('gnd_sim', u'🔥').replace('gnd_malam', u'🕹️').replace('gnd_yarpa', u'💉').replace('fullmoon',u'🌔').replace('gnd_konan', u'🏖')
@@ -121,11 +125,15 @@ def view_calendar(request):
 @login_required
 def calendar_add(request):
 	pilot_id = request.user.id
+	iCalUID = 'UNSYNCED_'+uuid.uuid4().hex
 	if request.method == 'POST':
-		sortie_entry = plannedFlight(pilot=pilot_id, day_value=request.POST['day'],night_value=request.POST['night'],dt=request.POST['date'])
+		sortie_entry = plannedFlight(pilot=pilot_id,iCalUID = iCalUID, day_value=request.POST['day'],night_value=request.POST['night'],dt=request.POST['date'])
 		if not request.POST['gnd_activity'] == 'none':
 			sortie_entry.gnd_activity = request.POST['gnd_activity']
 		sortie_entry.save()
+		sqliteDB = '"'+os.path.abspath(connections.databases['default']['NAME'])+'"'
+		cmd = 'python calendar-manager.py --sqliteDB %s --add %s' %(sqliteDB,iCalUID)
+		p = subprocess.Popen([cmd],cwd=CALENDAR_SCRIPT_DIR,shell=True)
 		return HttpResponseRedirect("/FlightLog/calendar.html?date="+request.POST['date'])
 	else:
 		return render(request, 'FlightLog/calendar_add.html', {'pilot_name': pilot_id,})
@@ -134,8 +142,16 @@ def calendar_add(request):
 def delete_from_db(request):
 	pilot_id = request.user.id
 	if request.method == 'POST':
+		try:
+			for flight in plannedFlight.objects.filter(pilot=pilot_id).filter(dt = request.POST['date']):
+				iCalUID = flight.iCalUID
+		except:
+			pass
 		plannedFlight.objects.filter(pilot=pilot_id).filter(dt = request.POST['date']).delete()
 		flightLog.objects.filter(pilot=pilot_id).filter(dt = request.POST['date']).delete()
+		sqliteDB = '"'+os.path.abspath(connections.databases['default']['NAME'])+'"'
+		cmd = 'python calendar-manager.py --sqliteDB %s --delete %s' %(sqliteDB,iCalUID)
+		p = subprocess.Popen([cmd],cwd=CALENDAR_SCRIPT_DIR,shell=True)
 		return HttpResponseRedirect("/FlightLog/calendar.html?date="+request.POST['date'])
 	else:
 		return render(request, 'FlightLog/calendar_delete.html')

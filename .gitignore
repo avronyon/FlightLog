@@ -7,3 +7,10 @@ migrations/0002_plannedflight.py
 migrations/0003_auto_20170106_1210.py
 migrations/0004_auto_20170106_1211.py
 migrations/0005_auto_20170106_1212.py
+calendar_manager/client_secret.json
+calendar_manager/requirements.txt
+calendar_manager/Dockerfile
+calendar_manager/Cheatsheet.txt
+calendar_manager/calendarID.txt
+calendar_manager/calendar-python-quickstart.json
+calendar_manager/test.py
