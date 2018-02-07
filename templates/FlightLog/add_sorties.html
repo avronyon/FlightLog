@@ -8,7 +8,7 @@
 	<form action="add_sorties" method="post">
 		{% csrf_token %}
 		<div class="row">
-			<input id="date" name="date" min="2016-02-16" max="2020-01-01" type="date">
+			<input id="date" name="date" min="2016-02-16" max="2020-01-01" type="date" value={% now "Y-m-d" %}>
 		</div>
 		<div id='sorties' class="row">
 		</div>

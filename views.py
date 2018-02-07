@@ -98,7 +98,6 @@ def add_sorties(request):
 				mission_dict[int(sortie_num)] += mission_value + ';'
 			except:
 				mission_dict[int(sortie_num)] = mission_value + ';'
-			print mission_dict[int(sortie_num)]
 		for sortie in mission_dict:
 			sortie_entry = flightLog(pilot=pilot_id, mission=mission_dict[sortie],dt=request.POST['date'])
 			sortie_entry.save()
@@ -145,13 +144,13 @@ def delete_from_db(request):
 		try:
 			for flight in plannedFlight.objects.filter(pilot=pilot_id).filter(dt = request.POST['date']):
 				iCalUID = flight.iCalUID
+			sqliteDB = '"'+os.path.abspath(connections.databases['default']['NAME'])+'"'
+			cmd = 'python calendar-manager.py --sqliteDB %s --delete %s' %(sqliteDB,iCalUID)
+			p = subprocess.Popen([cmd],cwd=CALENDAR_SCRIPT_DIR,shell=True)
 		except:
 			pass
 		plannedFlight.objects.filter(pilot=pilot_id).filter(dt = request.POST['date']).delete()
 		flightLog.objects.filter(pilot=pilot_id).filter(dt = request.POST['date']).delete()
-		sqliteDB = '"'+os.path.abspath(connections.databases['default']['NAME'])+'"'
-		cmd = 'python calendar-manager.py --sqliteDB %s --delete %s' %(sqliteDB,iCalUID)
-		p = subprocess.Popen([cmd],cwd=CALENDAR_SCRIPT_DIR,shell=True)
 		return HttpResponseRedirect("/FlightLog/calendar.html?date="+request.POST['date'])
 	else:
 		return render(request, 'FlightLog/calendar_delete.html')
