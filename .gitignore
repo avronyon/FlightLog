@@ -14,3 +14,5 @@ calendar_manager/Cheatsheet.txt
 calendar_manager/calendarID.txt
 calendar_manager/calendar-python-quickstart.json
 calendar_manager/test.py
+calendar_manager/token.pickle
+calendar_manager/credentials.json

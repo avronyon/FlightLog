@@ -2,16 +2,22 @@
 
 {% block content %}
 
-<body>
-	כלל הגיחות
-<table align="center" cellpadding="10" style="text-align:center;">
-    {% for flight in flight_list %}
-    <tr>
-        <td>{{flight.dt|date:"Y-m-d"}}</td>
-        <td>{{flight.mission}}</td>
-    </tr>
-    {% endfor %}
-</table>
+{% load FlightLog_extra %}
+
+<body style="direction:rtl">
+	<h1>כלל הגיחות</h1>
+	<div>לילה אחרון: {{last_night.0.dt|date:"Y-m-d"}}</div>
+	<div>שוהם אחרון: {{last_shoham.0.dt|date:"Y-m-d"}}</div>
+	<br>
+	<table align="center" cellpadding="10" style="text-align:center;">
+	    {% for flight in flight_list %}
+	    <tr>
+	        <td>{{flight.dt|date:"Y-m-d"}}</td>
+	        <td>{{flight.mission | mission_hebrew}}</td>
+	        <td><a href="{% url 'flight_log_delete' flight.id %}"><i class="fas fa-ban"></i></a></td>
+	    </tr>
+	    {% endfor %}
+	</table>
 </body>
 
 {% endblock %}

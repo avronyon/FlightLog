@@ -5,10 +5,11 @@
 <body>
 	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 	<div class="container">
+		<h1>דיווח גיחות</h1>
 	<form action="add_sorties" method="post">
 		{% csrf_token %}
 		<div class="row">
-			<input id="date" name="date" min="2016-02-16" max="2020-01-01" type="date" value={% now "Y-m-d" %}>
+			<input id="date" name="date" min="2016-02-16" max="2020-01-01" type="date" style="color:black" value={% now "Y-m-d" %}>
 		</div>
 		<div id='sorties' class="row">
 		</div>
@@ -16,7 +17,7 @@
 			<input type="button" class="button" value="" onClick="addSortie()">
 		<div>
 		<div id = "footer" class="row" style= "position:bottom">
-        	<input id = 'submit' type="submit" value="SUBMIT">
+        	<input id = 'submit' type="submit" value="בוצע" class="btn btn-warning">
         </div>
 	</form>
 	<div>

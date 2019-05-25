@@ -3,26 +3,23 @@
 {% block content %}
 
 <body style="background:black; color:white;">
+	<div class="container text-center">
 	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 	<form action="settings" method="post" style="text-align:center;">
 		{% csrf_token %}
-		שינוי יעדים תקופתיים
+		<h1>שינוי יעדים תקופתיים</h1>
+
+		<input id="goals_total" name="total" type="number" class="form-control" placeholder="יעד גיחות כללי" style="text-align:center">
 		<br>
-		כללי
-		<input id="goals_total" name="total" type="number">
+		<input id="goals_night" name="night" type="number" class="form-control" placeholder="יעד לילה" style="text-align:center">
 		<br>
-		לילה
-		<input id="goals_night" name="night" type="number">
+		<input id="sim" name="gnd_sim" type="number" class="form-control" placeholder="יעד סימולטור" style="text-align:center">
 		<br>
+		<input id="malam" name="gnd_malam" type="number" class="form-control" placeholder="יעד מלאמ" style="text-align:center">
 		<br>
-		סימולטור
-		<input id="sim" name="gnd_sim" type="number">
-		<br>
-		מלאמ
-		<input id="malam" name="gnd_malam" type="number">
-		<br>
-        <input type="submit" value="CHANGE SETTINGS"">
+        <input type="submit" value="CHANGE SETTINGS" class="btn btn-warning">
 	</form>
+	</div>
 </body>
 
 {% endblock %}

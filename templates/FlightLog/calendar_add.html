@@ -3,16 +3,18 @@
 {% block content %}
 
 <body>
+	<div class="container">
 	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-	<form action="calendar_add" method="post" style="text-align:center;">
+	<form action="calendar_add" method="post">
 	{% csrf_token %}
 	<div>
+		<h1>רישום תקופתי</h1>
 		{{request.GET.date}}
 	</div>
-	<div>
-		<input id="date" name="date" type="date" style="opacity:0;" value = {{request.GET.date}}><br>
-		day: 
-		<select name="day">
+		<input id="date" name="date" type="date" style="opacity:0;" value = {{request.GET.date}}>
+		<div class="form-group">
+		<label for="day">day:</label> 
+		<select class="form-control" name="day" id="day">
 			<option value="0">0</option>
 			<option value="1">1</option>
 			<option value="2" selected>2</option>
@@ -20,28 +22,31 @@
 			<option value="4">4</option>
 			<option value="5">5</option>
 		</select>
-		<br>
-		night: 
-		<select name="night">
+		</div>
+		<div class="form-group">
+		<label>night:</label>
+		<select class="form-control" name="night">
 			<option value="0" selected>0</option>
 			<option value="1">1</option>
 			<option value="2">2</option>
 			<option value="3">3</option>
 		</select>
-		<br>
-		ground activity: 
-		<select name="gnd_activity">
-			<option value="none" selected>-</option>
-			<option value="gnd_sim">סימולטר</option>
-			<option value="gnd_malam">מלאמ</option>
-			<option value="gnd_yarpa">ירפא</option>
-			<option value="gnd_konan">כוננות</option>
-		</select>
-	</div>
+		</div>
+		<div class="form-group">
+			<label for="gnd_activity">ground activity:</label>
+				<select class="form-control" name="gnd_activity" id="gnd_activity">
+					<option value="none" selected>-</option>
+					<option value="gnd_sim">סימולטר</option>
+					<option value="gnd_malam">מלאמ</option>
+					<option value="gnd_yarpa">ירפא</option>
+					<option value="gnd_konan">כוננות</option>
+				</select>
+		</div>
 	<div>
-	<br>
-    <input type="submit" value="SUBMIT"">
+    <input type="submit" value="הרשם" class="btn btn-warning">
     </div>
 	</form>
+	</div>
+</div>
 </body>
 {% endblock %}

@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.contrib.auth import views as auth_views
 
 from . import views
 
@@ -17,4 +18,8 @@ urlpatterns = [
                # ex: /FlightLog/settings
                url(r'history', views.history, name='history'),
                # ex: /FlightLog/settings
+               url(r'^login/$', auth_views.login,{'template_name': 'FlightLog/login.html'},),
+               # ex: /FlightLog/login
+               url(r'^flight_log/(?P<pk>[0-9]+)/delete/$',views.delete_flight, name='flight_log_delete'),
+               # ex: /FlightLog/flight_log/1024/delete
                ]
