@@ -1,5 +1,6 @@
 # coding=UTF-8
 
+from __future__ import absolute_import
 from django.shortcuts import render
 from django.http import HttpResponse , HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
@@ -13,13 +14,13 @@ import datetime
 import uuid , os
 import subprocess
 import re
-import myHTMLCalendar
+from . import myHTMLCalendar
 from .models import goals , flightLog , plannedFlight
 
 # Create your views here.
 
-PIRIOD_S = datetime.datetime(2018,12,30,0,0,0)
-PIRIOD_E = datetime.datetime(2019,6,29,0,0,0)
+PIRIOD_S = datetime.datetime(2020,1,2,0,0,0)
+PIRIOD_E = datetime.datetime(2020,6,27,0,0,0)
 GND_ACTIONS = ('sim','sim_winter','malam','yarpa','konan')
 STATIC_SIM_GOAL = 2
 STATIC_MALAM_GOAL = 2
